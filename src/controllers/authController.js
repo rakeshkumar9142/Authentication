@@ -1,5 +1,5 @@
 import bcrypt from "bcryptjs"
-import User from "../models/user"
+import User from "../models/user.js"
 export const register = async (req,res) => {
 
     try {
@@ -18,7 +18,14 @@ export const register = async (req,res) => {
     }
 
 };
-export const login = async (req,res) => {};
+export const login = async (req,res) => {
+  console.log("The authenticated user is",req.user);
+  res.status(200).json({
+    message : "user logged in successfully",
+    username : req.user.username,
+    isMfaActive : req.user.isMfaActive,
+  });
+};
 export const authStatus = async (req,res) => {};
 export const logout = async (req,res) => {};
 export const setup2FA = async (req,res) => {};

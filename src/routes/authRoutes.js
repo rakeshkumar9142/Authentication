@@ -1,13 +1,20 @@
 import { Router } from "express";
 import passport from "passport";
-import { register,login,logout,authStatus,setup2FA,verify2FA,reset2FA } from "../controllers/authController.js";
+import { register,
+    login,
+    logout,
+    authStatus,
+    setup2FA,
+    verify2FA,
+    reset2FA }
+ from "../controllers/authController.js";
 
 const router = Router();
 
 // Rejistration Route
 router.post('/register',register)
 // Login route
-router.post('/login',login)
+router.post('/login',passport.authenticate("local"),login)
 // Auth Status Route
 router.get('/status',authStatus)
 // Logout Route
