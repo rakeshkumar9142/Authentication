@@ -1,5 +1,9 @@
 import bcrypt from "bcryptjs"
+import speakeasy from "speakeasy"
+import qrCode from "qrcode"
+import jwt from "jsonwebtoken"
 import User from "../models/user.js"
+import { Passport } from "passport"
 export const register = async (req,res) => {
 
     try {
@@ -49,6 +53,62 @@ export const logout = async (req,res) => {
     })
   } 
 };
-export const setup2FA = async (req,res) => {};
-export const verify2FA = async (req,res) => {};
-export const reset2FA = async (req,res) => {};
+export const setup2FA = async (req,res) => {
+  try {
+    console.log("The req.user is : ",req.user);
+    const user = req.user;
+    var secret = speakeasy.generateSecret();
+    console.log("The secret object is : ",secret);
+    user.twoFactorSector = secret.base32;
+    user.isMfaActive = true;
+    await user.save();
+    const url = speakeasy.otpauthURL({
+      secret: secret.base32,
+      label : `${req.user.username}`,
+      issuer : "www.dipeshmalvia.com",
+      encoding : "base32",
+    });
+    const qrImageUrl = await qrCode.toDataURL(url)
+    res.status(200).json({
+      secret : secret.base32,
+      qrCode : qrImageUrl,
+    })
+  } catch (error) {
+    res.status(500).json({error : "Error setting up 2FA",message : error})
+  }
+};
+export const verify2FA = async (req,res) => {
+
+  const {token} = req.body;
+  const user = req.user;
+
+  const verified = speakeasy.totp.verify({
+     secret : user.twoFactorSector,
+     encoding : "base32",
+     token,
+  });
+
+  if (verified) {
+    const jwtToken = jwt.sign({username : user.username},
+      process.env.JWT_SECRET,
+      {expiresIn : "1hr"}
+      );
+      res.status(200).json({message : "2FA successful",token : jwtToken})
+  } else {
+    res.status(400).json({message : "Invalide 2FA token"})
+  }
+
+};
+export const reset2FA = async (req,res) => {
+
+  try {
+    const user = req.user;
+    user.twoFactorSector = "";
+    user.isMfaActive = false;
+    await user.save();
+    res.status(200).json({message : "2FA reset successfully"});
+  } catch (error) {
+    res.status(500).json({error : "Error reseting 2FA", message : error})
+  }
+
+};
