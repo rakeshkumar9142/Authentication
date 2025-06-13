@@ -7,7 +7,7 @@ import { register,
     setup2FA,
     verify2FA,
     reset2FA }
- from "../../src/controllers/authController.js";
+ from "../controllers/authController.js";
 
 const router = Router();
 
