@@ -10,3 +10,5 @@ const authorizeRoles = (...allowedRoles) => {
 }
 
 module.exports = authorizeRoles;
+
+// importting this module
