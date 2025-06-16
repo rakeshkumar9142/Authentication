@@ -41,7 +41,6 @@ export const authStatus = async (req,res) => {
   } else {
     res.status(401).json({message : "Unauthorized user"})
   }
-
 };
 export const logout = async (req,res) => {
 
@@ -97,10 +96,9 @@ export const verify2FA = async (req,res) => {
   } else {
     res.status(400).json({message : "Invalide 2FA token"})
   }
-
 };
-export const reset2FA = async (req,res) => {
 
+export const reset2FA = async (req,res) => {
   try {
     const user = req.user;
     user.twoFactorSector = "";
@@ -110,5 +108,4 @@ export const reset2FA = async (req,res) => {
   } catch (error) {
     res.status(500).json({error : "Error reseting 2FA", message : error})
   }
-
 };

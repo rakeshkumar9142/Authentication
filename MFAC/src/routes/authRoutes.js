@@ -12,6 +12,7 @@ import { register,
 const router = Router();
 
 // Rejistration Route
+
 router.post('/register',register)
 // Login route
 router.post('/login',passport.authenticate("local"),login)

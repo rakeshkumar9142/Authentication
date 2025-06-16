@@ -11,7 +11,8 @@ dotenv.config();
 dbConnect();
 const app = express();
 
-// Middlewares
+// Middlewares 
+
 const corsOptions = {
     origin : ["http://localhost:3001"],
     Credentials : true,
