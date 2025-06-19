@@ -29,3 +29,14 @@ exports.signinSchema = joi.object({
             'string.pattern.base': 'Password must be at least 8 characters long and include uppercase, lowercase, number, and special character.'
         })
 });
+
+exports.acceptcodeSchema = joi.object({
+    email: joi.string()
+        .min(6)
+        .max(60)
+        .required()
+        .email({ 
+            tlds: { allow: ['com', 'net'] }, 
+        }),
+        providedCode : joi.number().required
+})
