@@ -1,6 +1,7 @@
 const express = require('express');
 const mongoose = require('mongoose');
 const dotenv = require('dotenv').config();
+const userRoute = require('./routes/user.js')
 
 const app = express();
 app.use(express.json());
@@ -12,7 +13,11 @@ mongoose.connect(process.env.MONGO_URL)
 })
 
 
+app.use('/api/users',userRoute) 
 
-app.listen(5000,() => {
-    console.log(`Backend server is runing`);
+
+
+
+app.listen(process.env.PORT || 5000,() => {
+    console.log(`Backend server is runing : ${process.env.PORT}`);
 })
