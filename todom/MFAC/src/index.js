@@ -11,7 +11,7 @@ dotenv.config();
 dbConnect();
 const app = express();
 
-// Middlewares 
+
 
 const corsOptions = {
     origin : ["http://localhost:3001"],
@@ -39,3 +39,5 @@ const PORT = process.env.PORT || 7002;
 app.listen(PORT,() => {
     console.log(`Server is runing on PORT : ${PORT}`);
 })
+
+

@@ -1,3 +1,4 @@
+
 import { connect } from "mongoose"
 const dbConnect = async() => {
     try{
@@ -10,3 +11,4 @@ const dbConnect = async() => {
 };
 
 export default dbConnect;
+
