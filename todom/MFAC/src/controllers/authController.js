@@ -32,6 +32,7 @@ export const login = async (req,res) => {
     isMfaActive : req.user.isMfaActive,
   });
 };
+
 export const authStatus = async (req,res) => {
 
   if(req.User) {
@@ -44,6 +45,7 @@ export const authStatus = async (req,res) => {
     res.status(401).json({message : "Unauthorized user"})
   }
 };
+
 export const logout = async (req,res) => {
 
   if (!req.User) {
