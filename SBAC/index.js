@@ -7,6 +7,7 @@ app.set('view engine','ejs');
 
 app.use(express.urlencoded({extended : false}))
 
+
 app.use(session({
     secret : 'my-sesion-secret',
     resave : true,
@@ -15,6 +16,8 @@ app.use(session({
         maxAge : 10000
     }
 }))
+
+
 
 app.use((req,res,next) => {
     res.locals.user = req.session.user;
@@ -46,3 +49,5 @@ app.get('/logout',(req,res) => {
 app.listen(3000,() => {
     console.log('Server is runing on PORT : 3000');
 })
+
+
